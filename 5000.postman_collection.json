@@ -1,0 +1,533 @@
+{
+	"info": {
+		"_postman_id": "75ae6f51-4ec1-4be0-a324-7cfeb4dc0cb0",
+		"name": "5000",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "725 Росгосстрах Автозащита 5000!!!",
+			"item": [
+				{
+					"name": "Создание котировки",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.collectionVariables.set(\"ContractId\", jsonData.BusinessData.SubmissionCreateResponse.Contract.Contracts.Contract[0].Header.ContractId.Id);\r",
+									"pm.collectionVariables.set(\"PolicyPremiumWithAddAgreementsENV\", jsonData.BusinessData.SubmissionCreateResponse.Calculation.PolicyPremiumWithAddAgreements);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"numberPhoneENV\", _.random(1111111,9999999))\r",
+									"\r",
+									"\r",
+									"var moment = require('moment')\r",
+									"pm.collectionVariables.set(\"STARTdateCreateENV\",moment().add(1,'Days').toISOString().substr(0,+10))\r",
+									"pm.collectionVariables.set(\"ENDdateCreateENV\",moment().subtract(0,'Days').add(1,'Year').toISOString().substr(0,+10))\r",
+									"\r",
+									"\r",
+									"//Fake ФИО\r",
+									"window = {};\r",
+									"pm.sendRequest(\"https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js\", (error, response) => {\r",
+									"var text = response.text();\r",
+									"(new Function(text))();\r",
+									"\r",
+									"window.faker.locale = \"ru\";\r",
+									"\r",
+									"var name = window.faker.name.firstName(gender=0);\r",
+									"\r",
+									"var name2 = window.faker.name.lastName(gender=0);\r",
+									"\r",
+									"var name3 = window.faker.name.firstName(gender=0);\r",
+									"\r",
+									"var name4 = window.faker.name.lastName(gender=0);\r",
+									"\r",
+									"\r",
+									"//console.log(name);\r",
+									"//console.log(name2);\r",
+									"\r",
+									"pm.collectionVariables.set(\"firstNameENV\", name )\r",
+									"pm.collectionVariables.set(\"lastNameENV\", name2 )\r",
+									"pm.collectionVariables.set(\"firstName2ENV\", name3 )\r",
+									"pm.collectionVariables.set(\"lastName2ENV\", name4 )\r",
+									"\r",
+									"\r",
+									"});\r",
+									"\r",
+									"const middlename = [\"Александрович\",\"Алексеевич\",\"Альбертович\",\"Анатольевич\",\"Андреевич\",\"Антонович\",\"Аркадьевич\",\"Арсеньевич\",\"Артёмович\",\"Борисович\",\"Вадимович\",\"Валентинович\",\"Валерьевич\",\"Васильевич\",\"Викторович\",\"Витальевич\",\"Владимирович\",\"Владиславович\",\"Вячеславович\",\"Геннадьевич\",\"Георгиевич\",\"Германович\",\"Григорьевич\",\"Даниилович\",\"Денисович\",\"Дмитриевич\",\"Евгеньевич\",\"Егорович\",\"Иванович\",\"Игнатьевич\",\"Игоревич\",\"Ильич\",\"Константинович\",\"Лаврентьевич\",\"Леонидович\",\"Лукич\",\"Макарович\",\"Максимович\",\"Матвеевич\",\"Михайлович\",\"Никитич\",\"Николаевич\",\"Олегович\",\"Романович\",\"Семёнович\",\"Сергеевич\",\"Станиславович\",\"Степанович\",\"Фёдорович\",\"Эдуардович\",\"Юрьевич\",\"Ярославович\"]\r",
+									"\r",
+									"pm.collectionVariables.set(\"middlenameENV\",_.shuffle(middlename)[0])\r",
+									"pm.collectionVariables.set(\"middlename2ENV\",_.shuffle(middlename)[0])"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gw",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "su",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"BusinessData\": {\r\n        \"BaseProductName\": \"MKASKO\",\r\n        \"ContrAgent\": {\r\n            \"BranchCode\": 14008110,\r\n            \"AgentINN\": \"3245501610\",\r\n            \"AgentKPP\": \"324501001\",\r\n            \"SkName\": \"VIRTU\",\r\n            \"RegionIdCalc\": \"77\"\r\n        },\r\n        \"Contract\": {\r\n            \"Contracts\": {\r\n                \"Contract\": [\r\n                    {\r\n                        \"Coverage\": {\r\n                            \"Cover\": [\r\n                                {\r\n                                    \"CoverId\": {\r\n                                        \"Id\": \"2\",\r\n                                        \"SysId\": \"VIRTU\",\r\n                                        \"Type\": \"COVER\"\r\n                                    },\r\n                                    \"CoverTypeId\": {\r\n                                        \"Id\": \"2\",\r\n                                        \"SysId\": \"SCC2\",\r\n                                        \"Type\": \"CASCODIKTRISK\"\r\n                                    }\r\n                                }\r\n                            ]\r\n                        },\r\n                        \"Data\": {\r\n                            \"DriversRestriction\": \"1\",\r\n                            \"Drivers\": {\r\n                                \"Driver\": [\r\n                                    {\r\n                                        \"PersonId\": {\r\n                                            \"Id\": \"Aojv9Fu3tkRh4jaaBYwoF5tImQQA1hNI\",\r\n                                            \"SysId\": \"VIRTU\",\r\n                                            \"Type\": \"PERSON\"\r\n                                        },\r\n                                        \"Experience\": \"2021\",\r\n                                        \"Age\": 30\r\n                                    }\r\n                                ]\r\n                            }\r\n                        },\r\n                        \"Header\": {\r\n                            \"Currency\": {\r\n                                \"CurName\": \"RUB\",\r\n                                \"CurRate\": 1,\r\n                                \"IsFixRate\": true\r\n                            },\r\n                            \"ProductId\": {\r\n                                \"Id\": \"301\",\r\n                                \"SysId\": \"SCC2\",\r\n                                \"Type\": \"PRODUCT_TYPE\"\r\n                            },\r\n                            \"EntityTypeId\": {\r\n                                \"Id\": \"1\",\r\n                                \"SysId\": \"SCC2\",\r\n                                \"Type\": \"ENTITY_TYPE\"\r\n                            },\r\n                            \"SaleChannelId\": {\r\n                                \"Id\": \"390\",\r\n                                \"SysId\": \"SCC2\",\r\n                                \"Type\": \"DICTSALECHANNELTYPE200\"\r\n                            },\r\n                            \"ClientAccept\": true,\r\n                            \"PaymentScheduleTypeId\": {\r\n                                \"Id\": \"1\",\r\n                                \"SysId\": \"SCC2\",\r\n                                \"Type\": \"CPAY_DCTSCHEDULETYPE\"\r\n                            },\r\n                            \"StartDate\": \"{{STARTdateCreateENV}}T00:00:00+03:00\",\r\n                            \"EndDate\": \"{{ENDdateCreateENV}}T23:59:00+03:00\"\r\n                        },\r\n                        \"InsuredObjects\": [\r\n                            {\r\n                                \"UsageId\": {\r\n                                    \"Id\": \"1\",\r\n                                    \"SysId\": \"SCC2\",\r\n                                    \"Type\": \"VEHICLE_PURPOSEOFUSE\"\r\n                                },\r\n                                \"ActualCost\": 695000.0,\r\n                                \"Owners\": {\r\n                                    \"Owner\": [\r\n                                        {\r\n                                            \"OwnerId\": {\r\n                                                \"Id\": \"Aojv9Fu3tkRh4jaaBYwoF5tImQQA1hNI\",\r\n                                                \"SysId\": \"VIRTU\",\r\n                                                \"Type\": \"PERSON\"\r\n                                            },\r\n                                            \"Quota\": 100\r\n                                        }\r\n                                    ]\r\n                                },\r\n                                \"NewAuto\": true,\r\n                                \"AntitheftAlarms\": {\r\n                                    \"AlarmInfo\": \"1\",\r\n                                    \"Antitheftalarm\": [\r\n                                        {\r\n                                            \"AlarmId\": {\r\n                                                \"Id\": \"1012009\",\r\n                                                \"SysId\": \"SCC2\",\r\n                                                \"Type\": \"ALARMS\"\r\n                                            },\r\n                                            \"AlarmCategoryId\": {\r\n                                                \"Id\": \"1012009\",\r\n                                                \"SysId\": \"SCC2\",\r\n                                                \"Type\": \"ALARMCAT_TYPE\"\r\n                                            }\r\n                                        }\r\n                                    ]\r\n                                },\r\n                                \"IndemnityFormId\": {\r\n                                    \"Id\": \"13\",\r\n                                    \"SysId\": \"SCC2\",\r\n                                    \"Type\": \"D_INDEMNITYFORM\"\r\n                                },\r\n                                \"ObjectId\": {\r\n                                    \"Id\": \"23\",\r\n                                    \"SysId\": \"SCC2\",\r\n                                    \"Type\": \"INSUREDOBJECT\"\r\n                                },\r\n                                \"VehicleInfo\": {\r\n                                    \"CarCategoryId\": {\r\n                                        \"SysId\": \"SCC2\",\r\n                                        \"Type\": \"CARRIER_CATEGORIES\",\r\n                                        \"id\": \"002\"\r\n                                    },\r\n                                    \"CarCodes\": {\r\n                                        \"CarCode\": [\r\n                                            {\r\n                                                \"Id\": \"181007204\",\r\n                                                \"SysId\": \"SCC2\",\r\n                                                \"Type\": \"CARRIER_MODELS\"\r\n                                            }\r\n                                        ]\r\n                                    },\r\n                                    \"Color\": \"Silver\",\r\n                                    \"EngCapHp\": 123.0,\r\n                                    \"EngineVolume\": 1.6,\r\n                                    \"LicensePlate\": \"К131КМ777\",\r\n                                    \"BodyNumber\": \"XW8ZZZ75ZKG\",\r\n                                    \"EngineNumber\": \"028103373\",\r\n                                    \"ChassisNumber\": \"036208\",\r\n                                    \"IsRegisteredInRF\": true,\r\n                                    \"MarkNamePts\": \"Kia\",\r\n                                    \"ModelNamePts\": \"Rio\",\r\n                                    \"TypeId\": {\r\n                                        \"Id\": \"002\",\r\n                                        \"SysId\": \"SCC2\",\r\n                                        \"Type\": \"CARRIER_TYPE\"\r\n                                    },\r\n                                    \"Vin\": \"XW8ZZZ75ZKG036208\",\r\n                                    \"YearIssue\": 2021,\r\n                                    \"WithTrailer\": false,\r\n                                    \"RightWheel\": false,\r\n                                    \"AutoStart\": true,\r\n                                    \"Documents\": {\r\n                                        \"Document\": [\r\n                                            {\r\n                                                \"RegistrationCountry\": \"643\",\r\n                                                \"DocIssuedBy\": \"ГИБДД\",\r\n                                                \"DocIssuedByCode\": \"111-111\",\r\n                                                \"IsDuplicate\": false,\r\n                                                \"DocValid\": true,\r\n                                                \"DocIssueDate\": \"2021-08-18\",\r\n                                                \"DocExpireDate\": \"2030-03-01\",\r\n                                                \"DocNumber\": \"348032\",\r\n                                                \"DocSeries\": \"78АА\",\r\n                                                \"DocTypeId\": {\r\n                                                    \"Id\": \"30\",\r\n                                                    \"SysId\": \"SCC2\",\r\n                                                    \"Type\": \"VEHDOC_TYPE\"\r\n                                                }\r\n                                            }\r\n                                        ]\r\n                                    }\r\n                                }\r\n                            }\r\n                        ],\r\n                        \"Persons\": [\r\n                            {\r\n                                \"Birthday\": \"1991-07-29\",\r\n                                \"FirstNameRus\": \"{{firstNameENV}}\",\r\n                                \"LastNameRus\": \"{{lastNameENV}}\",\r\n                                \"MiddleNameRus\": \"{{middlenameENV}}\",\r\n                                \"Gender\": \"M\",\r\n                                \"IsResident\": true,\r\n                                \"PersonId\": {\r\n                                    \"Id\": \"Aojv9Fu3tkRh4jaaBYwoF5tImQQA1hNI\",\r\n                                    \"SysId\": \"VIRTU\",\r\n                                    \"Type\": \"PERSON\"\r\n                                },\r\n                                \"PersonTypeId\": {\r\n                                    \"Id\": \"1\",\r\n                                    \"SysId\": \"GWPC\",\r\n                                    \"Type\": \"CONTR_PERS_TYPE\"\r\n                                },\r\n                                \"Phones\": {\r\n                                    \"Phone\": [\r\n                                        {\r\n                                            \"TypeId\": {\r\n                                                \"Id\": \"4\",\r\n                                                \"SysId\": \"SCC2\",\r\n                                                \"Type\": \"PHONE_TYPE\"\r\n                                            },\r\n                                            \"FullNumber\": \"999{{numberPhoneENV}}\",\r\n                                            \"CountryCode\": \"7\",\r\n                                            \"Prefix\": \"999\",\r\n                                            \"Number\": \"{{numberPhoneENV}}\"\r\n                                        }\r\n                                    ]\r\n                                },\r\n                                \"Emails\": {\r\n                                    \"Email\": [\r\n                                        {\r\n                                            \"EmailTypeId\": {\r\n                                                \"Id\": \"1\",\r\n                                                \"SysId\": \"GWPC\",\r\n                                                \"Type\": \"EMAIL_TYPE\"\r\n                                            },\r\n                                            \"EmailAddress\": \"tatyana_i_andreeva@rgs.ru\"\r\n                                        }\r\n                                    ]\r\n                                },\r\n                                \"Documents\": {\r\n                                    \"Document\": [\r\n                                        {\r\n                                            \"DocValid\": true,\r\n                                            \"DocNumber\": \"443513\",\r\n                                            \"DocIssuedBy\": \"МВД РОССИИ\",\r\n                                            \"DocSeries\": \"5853\",\r\n                                            \"DocIssuedByCode\": \"643\",\r\n                                            \"RegistrationCountry\": \"643\",\r\n                                            \"DocIssueDate\": \"2021-06-18\",\r\n                                            \"DocExpireDate\": \"2045-01-01\",\r\n                                            \"Primary\": true,\r\n                                            \"DocTypeId\": {\r\n                                                \"Id\": \"012\",\r\n                                                \"SysId\": \"SCC2\",\r\n                                                \"Type\": \"DOCUMENT_TYPE\"\r\n                                            }\r\n                                        },\r\n                                        {\r\n                                            \"Categories\": {\r\n                                                \"Category\": []\r\n                                            },\r\n                                            \"DocIssueDate\": \"2021-01-18\",\r\n                                            \"DocExpireDate\": \"2031-01-18\",\r\n                                            \"DocIssuedBy\": \"ГИБДД МВД\",\r\n                                            \"DocNumber\": \"897883\",\r\n                                            \"DocValid\": true,\r\n                                            \"DocSeries\": \"1407\",\r\n                                            \"DocTypeId\": {\r\n                                                \"Id\": \"017\",\r\n                                                \"SysId\": \"SCC2\",\r\n                                                \"Type\": \"DOCUMENT_TYPE\"\r\n                                            },\r\n                                            \"RegistrationCountry\": \"643\",\r\n                                            \"DocIssuedByCode\": \"643\",\r\n                                            \"CategoryDL\": \"B\"\r\n                                        }\r\n                                    ]\r\n                                },\r\n                                \"Addresses\": {\r\n                                    \"Address\": [\r\n                                        {\r\n                                            \"AddressTypeId\": {\r\n                                                \"Id\": \"2\",\r\n                                                \"SysId\": \"GWPC\",\r\n                                                \"Type\": \"ADDR_TYPE_OK\"\r\n                                            },\r\n                                            \"AddressCodes\": {\r\n                                                \"AddressCode\": [\r\n                                                    {\r\n                                                        \"Id\": \"72029be1-b165-46c6-b82e-313e86aa6e8a\",\r\n                                                        \"SysId\": \"FIAS\",\r\n                                                        \"Type\": \"ADDRESS_CODE\"\r\n                                                    }\r\n                                                ]\r\n                                            },\r\n                                            \"CountryCode\": \"643\",\r\n                                            \"FullAddress\": \"119019, г Москва, вн.тер.г. муниципальный округ Хамовники, ул Ленивка, д. 3 стр. 11\",\r\n                                            \"House\": \"3\",\r\n                                            \"Appartment\": \"11\",\r\n                                            \"City\": \"г Москва\",\r\n                                            \"Street\": \"ул Ленивка\",\r\n                                            \"District\": \"вн.тер.г. муниципальный округ Хамовники\"\r\n                                        }\r\n                                    ]\r\n                                },\r\n                                \"RoleList\": {\r\n                                    \"Role\": [\r\n                                        {\r\n                                            \"RoleId\": {\r\n                                                \"Id\": \"1\",\r\n                                                \"SysId\": \"GWPC\",\r\n                                                \"Type\": \"CONTR_PERS_TYPE\"\r\n                                            }\r\n                                        },\r\n                                        {\r\n                                            \"RoleId\": {\r\n                                                \"Id\": \"3\",\r\n                                                \"SysId\": \"GWPC\",\r\n                                                \"Type\": \"CONTR_PERS_TYPE\"\r\n                                            }\r\n                                        },\r\n                                        {\r\n                                            \"RoleId\": {\r\n                                                \"Id\": \"4\",\r\n                                                \"SysId\": \"GWPC\",\r\n                                                \"Type\": \"CONTR_PERS_TYPE\"\r\n                                            }\r\n                                        }\r\n                                    ]\r\n                                }\r\n                            }\r\n                        ]\r\n                    }\r\n                ]\r\n            },\r\n            \"ContractsCount\": 1,\r\n            \"SchemaVersion\": \"1.0\"\r\n        }\r\n    },\r\n    \"TechData\": {\r\n        \"ActionId\": \"d257a2fe-bdcb-4e98-bfec-4e69512385ec\",\r\n        \"CorrelationId\": \"08d61fd7-dd66-43f5-98d9-5bf006134f25\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/rest/submission/create",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"rest",
+								"submission",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Отправка расчета на оформление",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gw",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "su",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"BusinessData\": {\r\n        \"ContrAgent\": {\r\n            \"BranchCode\": 14008110,\r\n            \"AgentINN\": \"3245501610\",\r\n            \"AgentKPP\": \"324501001\",\r\n            \"SkName\": \"VIRTU\"\r\n        },\r\n        \"SubmissionServiceRequest\": {\r\n            \"ContractId\": \"{{ContractId}}\"\r\n        }\r\n    },\r\n    \"TechData\": {\r\n        \"ActionId\": \"29c3030b-fbdc-4404-b7ba-371d39eacf89\",\r\n        \"CorrelationId\": \"afa6ed12-a983-46ce-920d-f827c31d300a\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/rest/submission/bind",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"rest",
+								"submission",
+								"bind"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sendcode",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.collectionVariables.set(\"UUIDENV\", jsonData.BusinessData.SendVerificationCodeResponse.UUID);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "partner",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "partner",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"BusinessData\": {\r\n        \"ContrAgent\": {\r\n            \"BranchCode\": 14008110,\r\n            \"AgentINN\": \"3245501610\",\r\n            \"AgentKPP\": \"324501001\",\r\n            \"SkName\": \"VIRTU\"\r\n        },\r\n        \"SendVerificationCodeRequest\": {\r\n            \"SystemId\": \"GWPC\",\r\n            \"ClientMessageId\": \"21124\",\r\n            \"OutMessage\": {\r\n                \"TypeSourceId\": \"1\",\r\n                \"SourceAddress\": \"999{{numberPhoneENV}}\",\r\n                \"ContractId\": \"{{ContractId}}\",\r\n                \"TemplateId\": \"1\"\r\n            }\r\n        }\r\n    },\r\n    \"TechData\": {\r\n        \"ActionId\": \"49719099-172f-4567-ac91-3ee73d3c1b85\",\r\n        \"CorrelationId\": \"{{$randomUUID}}\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/rest/client/verification/sendcode",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"rest",
+								"client",
+								"verification",
+								"sendcode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "checkcode",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "partner",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "partner",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"BusinessData\": {\r\n        \"ContrAgent\": {\r\n            \"BranchCode\": 14008110,\r\n            \"AgentINN\": \"3245501610\",\r\n            \"AgentKPP\": \"324501001\",\r\n            \"SkName\": \"VIRTU\"\r\n        },\r\n        \"CheckVerificationCodeRequest\": {\r\n            \"SystemId\": \"GWPC\",\r\n            \"ClientMessageId\": \"21124\",\r\n            \"OutMessage\": {\r\n                \"TypeSourceId\": \"1\",\r\n                \"SourceAddress\": \"999{{numberPhoneENV}}\",\r\n                \"ContractId\": \"{{ContractId}}\",\r\n                \"UUID\": \"{{UUIDENV}}\",\r\n                \"Code\": \"1234\"\r\n            }\r\n        }\r\n    },\r\n    \"TechData\": {\r\n        \"ActionId\": \"49719099-172f-4567-ac91-3ee73d3c1b85\",\r\n        \"CorrelationId\": \"{{$randomUUID}}\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/rest/client/verification/checkcode",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"rest",
+								"client",
+								"verification",
+								"checkcode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание платежа",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require('moment')\r",
+									"pm.collectionVariables.set(\"ActualDateENV\",moment().toISOString().substr(0,+10))"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gw",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "su",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"BusinessData\": {\r\n        \"ContrAgent\": {\r\n            \"BranchCode\": 14008110,\r\n            \"AgentINN\": \"3245501610\",\r\n            \"AgentKPP\": \"324501001\",\r\n            \"SkName\": \"VIRTU\"\r\n        },\r\n        \"CreatePaymentRequest\": {\r\n            \"Contract\": {\r\n                \"ContractId\": \"{{ContractId}}\"\r\n            },\r\n            \"Payer\": {\r\n                \"IsResident\": true,\r\n                \"PayerTypeId\": \"1\",\r\n                \"FullName\": \"КРЫЛОВ ЛЕОНИД ПЕТРОВИЧ\",\r\n                \"INN\": \"878191089877\",\r\n                \"PersonTypeId\": \"1\",\r\n                \"Phone\": \"9996982508\",\r\n                \"EmailAddress\": \"tatyana_i_andreeva@rgs.ru\",\r\n                \"Document\": {\r\n                    \"DocType\": \"012\",\r\n                    \"DocSeries\": \"5853\",\r\n                    \"DocNumber\": \"443513\"\r\n                }\r\n            },\r\n            \"Payments\": [\r\n                {\r\n                    \"AmountRub\": \"{{PolicyPremiumWithAddAgreementsENV}} RUB\",\r\n                    \"AmountCurr\": \"{{PolicyPremiumWithAddAgreementsENV}} RUB\",\r\n                    \"CurrencyCode\": \"RUB\",\r\n                    \"CurrencyRate\": \"1\",\r\n                    \"PaymentDate\": \"{{ActualDateENV}}\",\r\n                    \"PaymentMethodId\": 6,\r\n                    \"Comment\": \"Оплата клиентом по счету\",\r\n                    \"PaymentTypeId\": 0\r\n                }\r\n            ],\r\n            \"Confirmation\": [\r\n                {\r\n                    \"AuthCode\": \"4672\",\r\n                    \"SessionID\": \"518287\",\r\n                    \"AmountRub\": \"{{PolicyPremiumWithAddAgreementsENV}} RUB\",\r\n                    \"ConfirmationDate\": \"{{ActualDateENV}}\",\r\n                    \"Document\": {\r\n                        \"DocType\": \"18\",\r\n                        \"DocSeries\": \"0497\",\r\n                        \"DocNumber\": \"086056\",\r\n                        \"DocIssueDate\": \"{{ActualDateENV}}\"\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    },\r\n    \"TechData\": {\r\n        \"ActionId\": \"7f6770e2-73a1-4257-933b-322ca598c56e\",\r\n        \"CorrelationId\": \"d8282a2f-8e2c-4242-8fb2-5a2eb653a6c7\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/rest/payment/create",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"rest",
+								"payment",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Issue  КАСКО Мини",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsondata = JSON.parse(responseBody)\r",
+									"var moment = require('moment')\r",
+									"console.log \r",
+									"({\r",
+									"        \"moment\" : moment().add(3,'hours'),\r",
+									"        \"requestName\" : request.name,\r",
+									"        \"requesturl\" : request.url,\r",
+									"        \"Number\" : jsondata.BusinessData.SubmissionServiceResponse.Number,\r",
+									"        \"Series\": jsondata.BusinessData.SubmissionServiceResponse.Series,\r",
+									"        \"CorrelationId\" : jsondata.TechData.CorrelationId\r",
+									"    });\r",
+									"\r",
+									"pm.environment.set(\"NumberKVITOVKA\",jsondata.BusinessData.SubmissionServiceResponse.Number);\r",
+									"pm.environment.set(\"SeriesKVITOVKA\",jsondata.BusinessData.SubmissionServiceResponse.Series);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.replaceIn('{{$randomUUID}}')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gw",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "su",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"BusinessData\": {\n        \"ContrAgent\": {\n            \"BranchCode\": 14008110,\n            \"AgentINN\": \"3245501610\",\n            \"AgentKPP\": \"324501001\",\n            \"SkName\": \"VIRTU\"\n        },\n        \"SubmissionServiceIssueRequest\": {\n            \"ContractId\": \"{{ContractId}}\"\n        }\n    },\n    \"TechData\": {\n        \"ActionId\": \"49719099-172f-4567-ac91-3ee73d3c1b85\",\n        \"CorrelationId\": \"{{$randomUUID}}\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/rest/submission/issue",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"rest",
+								"submission",
+								"issue"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "numberPhoneENV",
+			"value": ""
+		},
+		{
+			"key": "STARTdateCreateENV",
+			"value": ""
+		},
+		{
+			"key": "ENDdateCreateENV",
+			"value": ""
+		},
+		{
+			"key": "ContractId",
+			"value": ""
+		},
+		{
+			"key": "PolicyPremiumWithAddAgreementsENV",
+			"value": ""
+		},
+		{
+			"key": "UUIDENV",
+			"value": ""
+		},
+		{
+			"key": "ActualDateENV",
+			"value": ""
+		},
+		{
+			"key": "middlenameENV",
+			"value": ""
+		},
+		{
+			"key": "middlename2ENV",
+			"value": ""
+		},
+		{
+			"key": "firstNameENV",
+			"value": ""
+		},
+		{
+			"key": "lastNameENV",
+			"value": ""
+		},
+		{
+			"key": "firstName2ENV",
+			"value": ""
+		},
+		{
+			"key": "lastName2ENV",
+			"value": ""
+		}
+	]
+}
