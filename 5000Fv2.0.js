@@ -6,17 +6,11 @@ moment = require('moment')
 exportPoliciestoExcel = require('./xlsxService')
 const PolicyExport = []
 
-fs.unlink("results.json", function (err) {
-  console.log('results File deleted!');
-});
-fs.unlink("resultsEdited.json", function (err) {
-  console.log('resultsEdited File deleted!');
-});
 
 parametersForTestRun = {
   collection: path.join(__dirname, '5000.postman_collection.json'),
   environment: path.join(__dirname, 'ENV.json'),
-  iterationCount: 10, // Число итераций
+  iterationCount: 1, // Число итераций
   reporters: 'cli',
 };
 
@@ -25,7 +19,7 @@ parallelCollectionRun = function (done) {
     if (error) {
       console.log(error);
     }
-    if (data.item.name === 'Отправка расчета на оформление') {
+    if (data.item.name === 'Issue') {
 
       const response = JSON.parse(data.response.stream)
 
@@ -50,14 +44,14 @@ parallelCollectionRun = function (done) {
         'Time'
       ]
   const workSheetName = 'Policies'
-  const filepath = 'C:\\Users\\ikalinin\\Desktop\\5000\\PoliciesForLoad.xlsx'
+  const filepath = './PoliciesForLoad.xlsx'
   exportPoliciestoExcel(PolicyExport,workSheetColumnName,workSheetName,filepath);
     }
   })
 }
 
 
-const runs = Array(30).fill(parallelCollectionRun)  // Array(Число запусков параллельно)
+const runs = Array(2).fill(parallelCollectionRun)  // Array(Число запусков параллельно)
 
 async.parallel(runs,
   function (err, results) {
